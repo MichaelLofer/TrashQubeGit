@@ -1,0 +1,1 @@
+$env:GOOGLE_APPLICATION_CREDENTIALS="M:\UNIVERSIDAD\ServerTrashQube\trashqube-firebase-adminsdk-uh242-4e12ed53b3.json"
