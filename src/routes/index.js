@@ -17,13 +17,24 @@ const db = admin.database();
 }*/
 
 //request y response
+
+
 router.get('/', (req,res) => {
-    db.ref('cubo1').once('value', (snapshot) => {
+    db.ref('historico').once('value', (snapshot) => {
         const data = snapshot.val();
-        //A la vista index le pasamos la variable data
-        res.render('index', {cubo1:data});
+        res.render('index', {historico:data});
     });
 });
+
+
+router.get('/getHistorico', (req,res) => {
+    db.ref('historico').once('value', (snapshot) => {
+        const data = snapshot.val();
+        //A la vista index le pasamos la variable data
+        res.render('index', {historico:data});
+    });
+});
+
 
 router.get('/getQube', (req,res) => {
     db.ref('cubo1').once('value', (snapshot) => {
