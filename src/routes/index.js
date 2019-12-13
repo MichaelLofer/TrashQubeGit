@@ -2,7 +2,7 @@ const {Router} = require('express');
 const router = Router();
 var admin = require("firebase-admin");
 
-var serviceAccount = require("../../trashqube-firebase-adminsdk-uh242-4e12ed53b3.json");
+var serviceAccount = require("../../trashqube-firebase-adminsdk-uh242-3e6435a143.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
