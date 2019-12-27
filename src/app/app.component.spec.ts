@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'TrashQubeHosting'`, () => {
+  it(`should have as title 'TrashQubeAngular'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('TrashQubeHosting');
+    expect(app.title).toEqual('TrashQubeAngular');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('TrashQubeHosting app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('TrashQubeAngular app is running!');
   });
 });
