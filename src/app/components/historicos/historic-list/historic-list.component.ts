@@ -26,45 +26,42 @@ export class HistoricListComponent implements OnInit {
 
   ngOnInit() {
       this.chartHistorico = new Chart('historicoFondo', {
-        type: 'line',
-        data: {
-          labels: [],
-          datasets: [
-            {
-            label: 'Data 1',
-            fill: false,
-            data: [],
-            backgroundColor: '#168ede',
-            borderColor: '#168ede'
-            }
-          ]
+          type: 'line',
+          data: {
+            labels: [],
+            datasets: [{
+              label: 'Historico',
+              backgroundColor: "#3e95cd",
+              borderColor: "#3e95cd",
+              fill: false,
+              data: [
+              ],
+            }]
           },
           options: {
-          tooltips: {
-            enabled: false
-          },
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-              fontColor: 'white'
+            responsive: true,
+            title: {
+              display: true,
+              text: 'Datos Históricos de Distancia al Fondo'
+            },
+            scales: {
+              xAxes: [{
+                display: true,
+						    scaleLabel: {
+                  display: true,
+                  labelString: 'Fecha'
+                }
+              }],
+              yAxes: [{
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Valor'
+                }
+              }]
             }
-          },
-          scales: {
-            yAxes: [{
-              ticks: {
-                fontColor: "white"
-              }
-            }],
-            xAxes: [{
-            ticks: {
-              fontColor: "white",
-              beginAtZero: true
-            }
-            }]
           }
-          }
-      });
+        });
 
       this.chartEstado = new Chart('estadoCubo', {
         type: 'pie',
@@ -79,8 +76,12 @@ export class HistoricListComponent implements OnInit {
           ]
         },
         options: {
-          responsive: true
-        }
+          responsive: true,
+          title: {
+            display: true,
+            text: 'Estado Acutal del Cubo'
+          },
+        },
       });
 
       this.historicoService.getHistorics()
@@ -102,13 +103,7 @@ export class HistoricListComponent implements OnInit {
   }
 
 	private showHistorico(): void {
-    let chartTime: any = new Date();
-    chartTime = chartTime.getHours() + ':' + ((chartTime.getMinutes() < 10) ? '0' + chartTime.getMinutes() : chartTime.getMinutes()) + ':' + ((chartTime.getSeconds() < 10) ? '0' + chartTime.getSeconds() : chartTime.getSeconds());
-    if(this.chartHistorico.data.labels.length > 15) {
-        this.chartHistorico.data.labels.shift();
-        this.chartHistorico.data.datasets[0].data.shift();
-    }
-    this.chartHistorico.data.labels.push(chartTime);
+    this.chartHistorico.data.labels.push(this.historicList[this.historicList.length-1].fecha);
     this.chartHistorico.data.datasets[0].data.push(this.historicList[this.historicList.length-1].peso);
     this.chartHistorico.update();
   }
