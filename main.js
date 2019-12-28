@@ -331,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"card mt-5\">\n    <div class=\"card-body\">\n        <h6 class=\"text-center\">List of Historics</h6>\n        <table class=\"table table-sm table-hover\">\n            <tbody>\n                <tr *ngFor=\"let historico of historicList\">\n                    <td>{{historico.id}}</td>\n                    <td>{{historico.peso}}</td>\n                    <td>\n                        <a class=\"btn btn-secondary text-white\" (click)=\"onEdit(historico)\">\n                            <i class=\"far fa-edit\"></i>\n                        </a>\n                        <a class=\"btn btn-danger text-white\" (click)=\"onDelete(historico.$key)\">\n                            <i class=\"far fa-trash-alt\"></i>\n                        </a>\n                    </td>\n                </tr>\n            </tbody>\n        </table>\n        <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n        <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n    </div>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"card mt-5\">\n    <div class=\"card-body\">\n        <h6 class=\"text-center\">List of Historics</h6>\n        <table class=\"table table-sm table-hover\">\n            <tbody>\n                <tr *ngFor=\"let historico of historicList\">\n                    <td>ID: {{historico.id}}</td>\n                    <td>Peso: {{historico.distanciaFondo}}</td>\n                    <td>Peso: {{historico.peso}}</td>\n                    <td>Fecha: {{historico.fecha}}</td>\n                    <td>\n                        <a class=\"btn btn-secondary text-white\" (click)=\"onEdit(historico)\">\n                            <i class=\"far fa-edit\"></i>\n                        </a>\n                        <a class=\"btn btn-danger text-white\" (click)=\"onDelete(historico.$key)\">\n                            <i class=\"far fa-trash-alt\"></i>\n                        </a>\n                    </td>\n                </tr>\n            </tbody>\n        </table>\n        <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n        <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n    </div>\n</div>");
 
 /***/ }),
 
@@ -357,7 +357,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-md-5\">\n            <app-historico>\n\n            </app-historico>\n        </div>\n        <div class=\"col-md-5 text-center\">\n            <app-historic-list>\n            \n            </app-historic-list>\n        </div>\n    </div>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <div class=\"row\">\n        <app-historico>\n\n        </app-historico>\n\n        <app-historic-list>\n        \n        </app-historic-list>\n    </div>\n</div>\n");
 
 /***/ }),
 
