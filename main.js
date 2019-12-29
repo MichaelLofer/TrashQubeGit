@@ -828,7 +828,11 @@ var HistoricListComponent = /** @class */ (function () {
     };
     HistoricListComponent.prototype.showHistorico = function () {
         // subimos los datos
-        this.chartHistorico.data.labels.push(this.historicList[this.historicList.length - 1].hora);
+        if (this.chartHistorico.data.labels.length > 15) {
+            this.chartHistorico.data.labels.shift();
+            this.chartHistorico.data.datasets[0].data.shift();
+        }
+        this.chartHistorico.data.labels.push(this.historicList[this.historicList.length - 1].dia + "/" + this.historicList[this.historicList.length - 1].hora);
         this.chartHistorico.data.datasets[0].data.push(this.historicList[this.historicList.length - 1].distanciaFondo);
         this.chartHistorico.data.datasets[1].data.push(this.historicList[this.historicList.length - 1].peso);
         // actualizamos
