@@ -331,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"card\">\n    <div class=\"card-body\">\n        <h2 class=\"text-center\">Información del Cubo en Tiempo Real</h2>\n        <div *ngFor=\"let historico of historicList; last as isLast\">\n            <span *ngIf=\"isLast\">\n                <table class=\"table table-sm table-hover\">\n                    <tbody>\n                        <h4>CUBO 1</h4>\n                        <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                        <tr>Peso: {{historico.peso}}</tr>\n                        <tr>Dia: {{historico.dia}}</tr>\n                        <tr>Hora: {{historico.hora}}</tr>\n                    </tbody>\n                </table>\n            </span>\n        </div>\n        <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n        <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n    </div>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n    <h2 class=\"text-center\">Información del Cubo en Tiempo Real</h2>\n    <div *ngFor=\"let historico of historicList; last as isLast\">\n        <span *ngIf=\"isLast\">\n            <table class=\"table table-sm table-hover\">\n                <tbody>\n                    <h4 class=\"text-sm-left\">CUBO 1</h4>\n                    <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                    <tr>Peso: {{historico.peso}}</tr>\n                    <tr>Dia: {{historico.dia}}</tr>\n                    <tr>Hora: {{historico.hora}}</tr>\n                </tbody>\n            </table>\n        </span>\n    </div>\n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n</div>");
 
 /***/ }),
 
@@ -819,35 +819,38 @@ var HistoricListComponent = /** @class */ (function () {
                 var x = element.payload.toJSON();
                 x["$key"] = element.key;
                 _this.historicList.push(x);
-                _this.showHistorico();
                 if (item.indexOf(element) == item.length - 1) {
+                    _this.chartHistorico.data.labels = [];
+                    _this.chartHistorico.data.datasets[0].data = [];
+                    _this.chartHistorico.data.datasets[1].data = [];
+                    _this.showHistorico();
+                    _this.chartEstado.data.datasets[0].data = [];
                     _this.showEstado();
                 }
             });
         });
     };
     HistoricListComponent.prototype.showHistorico = function () {
+        // subimos los datos
+        for (var i in this.historicList) {
+            this.chartHistorico.data.labels.push(this.historicList[i].dia + "/" + this.historicList[i].hora);
+            this.chartHistorico.data.datasets[0].data.push(this.historicList[i].distanciaFondo);
+            this.chartHistorico.data.datasets[1].data.push(this.historicList[i].peso);
+        }
         //solo mostramos los últimos 15 datos
         if (this.chartHistorico.data.labels.length > 15) {
             this.chartHistorico.data.labels.shift();
             this.chartHistorico.data.datasets[0].data.shift();
         }
-        // subimos los datos
-        this.chartHistorico.data.labels.push(this.historicList[this.historicList.length - 1].dia + "/" + this.historicList[this.historicList.length - 1].hora);
-        this.chartHistorico.data.datasets[0].data.push(this.historicList[this.historicList.length - 1].distanciaFondo);
-        this.chartHistorico.data.datasets[1].data.push(this.historicList[this.historicList.length - 1].peso);
         // actualizamos
         this.chartHistorico.update();
     };
     HistoricListComponent.prototype.showEstado = function () {
-        // limpiamos
-        this.chartEstado.data.datasets[0].data.pop();
-        this.chartEstado.data.datasets[0].data.pop();
         // regla de tres
         this.porcentaje = (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 30;
         // subimos los datos
-        this.chartEstado.data.datasets[0].data.push(100 - this.porcentaje);
         this.chartEstado.data.datasets[0].data.push(this.porcentaje);
+        this.chartEstado.data.datasets[0].data.push(100 - this.porcentaje);
         // actualizamos
         this.chartEstado.update();
     };
