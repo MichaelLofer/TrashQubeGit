@@ -331,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n    <h2 class=\"text-center\">Información del Cubo en Tiempo Real</h2>\n    <div *ngFor=\"let historico of historicList; last as isLast\">\n        <span *ngIf=\"isLast\">\n            <table class=\"table table-sm table-hover\">\n                <tbody>\n                    <h4 class=\"text-sm-left\">CUBO 1</h4>\n                    <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                    <tr>Peso: {{historico.peso}}</tr>\n                    <tr>Dia: {{historico.dia}}</tr>\n                    <tr>Hora: {{historico.hora}}</tr>\n                </tbody>\n            </table>\n        </span>\n    </div>\n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n    <h2 class=\"text-center\">Información del Cubo en Tiempo Real</h2>\n    <div *ngFor=\"let historico of historicList; last as isLast\">\n        <span *ngIf=\"isLast\">\n            <table class=\"table table-sm table-hover\">\n                <tbody>\n                    <h4 class=\"text-sm-left\">CUBO 1</h4>\n                    <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                    <tr>Peso: {{historico.peso}}</tr>\n                    <tr>Dia: {{historico.dia}}</tr>\n                    <tr>Hora: {{historico.hora}}</tr>\n                </tbody>\n            </table>\n        </span>\n    </div>\n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n</div>\n\n<div class=\"mt-5\">\n    <h2 class=\"text-center\">Estadísticas</h2>\n    <table class=\"table table-sm table-hover\">\n        <tbody>\n            <h4 class=\"text-sm-left\">Medias de los sensores</h4>\n            <tr>Distancia Media: {{avarageWeight}}</tr>\n            <tr>Peso Medio: {{avarageDistance}}</tr>\n            <tr>Porcentaje Medio: {{avaragePercentage}}</tr>\n        </tbody>\n    </table>\n</div>");
 
 /***/ }),
 
@@ -742,6 +742,7 @@ var HistoricListComponent = /** @class */ (function () {
     // CONSTRUCTOR
     function HistoricListComponent(historicoService) {
         this.historicoService = historicoService;
+        // declaracion de variables
         this.chartHistorico = null;
         this.chartEstado = null;
     }
@@ -826,9 +827,33 @@ var HistoricListComponent = /** @class */ (function () {
                     _this.showHistorico();
                     _this.chartEstado.data.datasets[0].data = [];
                     _this.showEstado();
+                    _this.getAvarageWeight();
+                    _this.getAvarageDistance();
+                    _this.getAvaragePercentage();
                 }
             });
         });
+    };
+    HistoricListComponent.prototype.getAvarageWeight = function () {
+        var sumatorio = 0;
+        for (var i in this.historicList) {
+            sumatorio = sumatorio + this.historicList[i].peso;
+        }
+        this.avarageWeight = sumatorio / this.historicList.length;
+    };
+    HistoricListComponent.prototype.getAvarageDistance = function () {
+        var sumatorio = 0;
+        for (var i in this.historicList) {
+            sumatorio = sumatorio + this.historicList[i].distanciaFondo;
+        }
+        this.avarageDistance = sumatorio / this.historicList.length;
+    };
+    HistoricListComponent.prototype.getAvaragePercentage = function () {
+        var sumatorio = 0;
+        for (var i in this.historicList) {
+            sumatorio = sumatorio + (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 30;
+        }
+        this.avaragePercentage = sumatorio / this.historicList.length;
     };
     HistoricListComponent.prototype.showHistorico = function () {
         // subimos los datos
@@ -847,10 +872,10 @@ var HistoricListComponent = /** @class */ (function () {
     };
     HistoricListComponent.prototype.showEstado = function () {
         // regla de tres
-        this.porcentaje = (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 30;
-        // subimos los datos
-        this.chartEstado.data.datasets[0].data.push(this.porcentaje);
-        this.chartEstado.data.datasets[0].data.push(100 - this.porcentaje);
+        var porcentaje = (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 30;
+        // subimos los datos      
+        this.chartEstado.data.datasets[0].data.push(porcentaje); // Libre
+        this.chartEstado.data.datasets[0].data.push(100 - porcentaje); // Ocupado
         // actualizamos
         this.chartEstado.update();
     };
