@@ -331,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <h2 class=\"text-center mb-1\">Información del Cubo en Tiempo Real</h2>\n    <div class=\"row mb-5\">\n        <div class=\"col-6\">\n            <div *ngFor=\"let historico of historicList; last as isLast\">\n                <span *ngIf=\"isLast\">\n                    <table class=\"table table-sm table-hover\">\n                        <tbody>\n                            <h4 class=\"text-sm-left text-primary\">CUBO 1</h4>\n                            <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                            <tr>Peso: {{historico.peso}}</tr>\n                            <tr>Dia: {{historico.dia}}</tr>\n                            <tr>Hora: {{historico.hora}}</tr>\n                        </tbody>\n                    </table>\n                </span>\n            </div>\n        </div>\n        <div class=\"col-6\"> <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n        </div>\n    </div>\n    \n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    \n        \n    <h2 class=\"text-center text-warning mt-3\">Estadísticas</h2>\n    <table class=\"table table-sm table-hover\">\n        <tbody>\n            <h4 class=\"text-sm-left\">Medias de los sensores</h4>\n            <tr>Distancia Media: {{avarageWeight}}</tr>\n            <tr>Peso Medio: {{avarageDistance}}</tr>\n            <tr>Porcentaje Medio: {{avaragePercentage}}</tr>\n        </tbody>\n    </table>\n    \n    <agm-map [latitude]=\"globalLat\" [longitude]=\"globalLng\">\n        <agm-marker [latitude]=\"markerLat\" [longitude]=\"markerLng\">\n\n        </agm-marker>\n    </agm-map>\n</div>\n\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <h2 class=\"text-center mb-1\">Información del Cubo en Tiempo Real</h2>\n    <div class=\"row mb-5\">\n        <div class=\"col-6\">\n            <div *ngFor=\"let historico of historicList; last as isLast\">\n                <span *ngIf=\"isLast\">\n                    <table class=\"table table-sm table-hover\">\n                        <tbody>\n                            <h4 class=\"text-sm-left text-primary\">CUBO 1</h4>\n                            <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                            <tr>Peso: {{historico.peso}}</tr>\n                            <tr>Dia: {{historico.dia}}</tr>\n                            <tr>Hora: {{historico.hora}}</tr>\n                        </tbody>\n                    </table>\n                </span>\n            </div>\n        </div>\n        <div class=\"col-6\"> <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n        </div>\n    </div>\n    \n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    \n        \n    <h2 class=\"text-center text-warning mt-3\">Estadísticas</h2>\n    <table class=\"table table-sm table-hover\">\n        <tbody>\n            <h4 class=\"text-sm-left\">Medias de los sensores</h4>\n            <tr>Distancia Media: {{avarageDistance}}</tr>\n            <tr>Peso Medio: {{avarageWeight}}</tr>\n            <tr>Porcentaje Medio: {{avaragePercentage}}</tr>\n        </tbody>\n    </table>\n    \n    <agm-map [latitude]=\"globalLat\" [longitude]=\"globalLng\">\n        <agm-marker [latitude]=\"markerLat\" [longitude]=\"markerLng\">\n\n        </agm-marker>\n    </agm-map>\n</div>\n\n");
 
 /***/ }),
 
@@ -765,6 +765,7 @@ var HistoricListComponent = /** @class */ (function () {
                         backgroundColor: "#3e95cd",
                         borderColor: "#3e95cd",
                         fill: false,
+                        //lineTension: 0, //para que no tenga curvatura
                         data: [],
                     },
                     {
@@ -794,7 +795,7 @@ var HistoricListComponent = /** @class */ (function () {
                             display: true,
                             scaleLabel: {
                                 display: true,
-                                labelString: 'Valor'
+                                labelString: 'Distancia / Peso'
                             }
                         }]
                 }
@@ -868,28 +869,28 @@ var HistoricListComponent = /** @class */ (function () {
     HistoricListComponent.prototype.getAvaragePercentage = function () {
         var sumatorio = 0;
         for (var i in this.historicList) {
-            sumatorio = sumatorio + (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 30;
+            sumatorio = sumatorio + (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 0.30;
         }
         this.avaragePercentage = (sumatorio / this.historicList.length).toFixed(2);
     };
     HistoricListComponent.prototype.showHistorico = function () {
-        // subimos los datos
+        // metemos los datos en el grafico de lineas
         for (var i in this.historicList) {
+            if (this.chartHistorico.data.labels.length > 20) {
+                this.chartHistorico.data.labels.shift();
+                this.chartHistorico.data.datasets[0].data.shift();
+                this.chartHistorico.data.datasets[1].data.shift();
+            }
             this.chartHistorico.data.labels.push(this.historicList[i].dia + "/" + this.historicList[i].hora);
             this.chartHistorico.data.datasets[0].data.push(this.historicList[i].distanciaFondo);
             this.chartHistorico.data.datasets[1].data.push(this.historicList[i].peso);
-        }
-        //solo mostramos los últimos 15 datos
-        if (this.chartHistorico.data.labels.length > 15) {
-            this.chartHistorico.data.labels.shift();
-            this.chartHistorico.data.datasets[0].data.shift();
         }
         // actualizamos
         this.chartHistorico.update();
     };
     HistoricListComponent.prototype.showEstado = function () {
         // regla de tres
-        var porcentaje = (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 30;
+        var porcentaje = (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 0.30;
         // subimos los datos      
         this.chartEstado.data.datasets[0].data.push(porcentaje); // Libre
         this.chartEstado.data.datasets[0].data.push(100 - porcentaje); // Ocupado
