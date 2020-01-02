@@ -331,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n    <h2 class=\"text-center\">Información del Cubo en Tiempo Real</h2>\n    <div *ngFor=\"let historico of historicList; last as isLast\">\n        <span *ngIf=\"isLast\">\n            <table class=\"table table-sm table-hover\">\n                <tbody>\n                    <h4 class=\"text-sm-left\">CUBO 1</h4>\n                    <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                    <tr>Peso: {{historico.peso}}</tr>\n                    <tr>Dia: {{historico.dia}}</tr>\n                    <tr>Hora: {{historico.hora}}</tr>\n                </tbody>\n            </table>\n        </span>\n    </div>\n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n</div>\n\n<div class=\"mt-5\">\n    <h2 class=\"text-center\">Estadísticas</h2>\n    <table class=\"table table-sm table-hover\">\n        <tbody>\n            <h4 class=\"text-sm-left\">Medias de los sensores</h4>\n            <tr>Distancia Media: {{avarageWeight}}</tr>\n            <tr>Peso Medio: {{avarageDistance}}</tr>\n            <tr>Porcentaje Medio: {{avaragePercentage}}</tr>\n        </tbody>\n    </table>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <h2 class=\"text-center mb-1\">Información del Cubo en Tiempo Real</h2>\n    <div class=\"row mb-5\">\n        <div class=\"col-6\">\n            <div *ngFor=\"let historico of historicList; last as isLast\">\n                <span *ngIf=\"isLast\">\n                    <table class=\"table table-sm table-hover\">\n                        <tbody>\n                            <h4 class=\"text-sm-left text-primary\">CUBO 1</h4>\n                            <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                            <tr>Peso: {{historico.peso}}</tr>\n                            <tr>Dia: {{historico.dia}}</tr>\n                            <tr>Hora: {{historico.hora}}</tr>\n                        </tbody>\n                    </table>\n                </span>\n            </div>\n        </div>\n        <div class=\"col-6\"> <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n        </div>\n    </div>\n    \n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    \n        \n    <h2 class=\"text-center text-warning mt-3\">Estadísticas</h2>\n    <table class=\"table table-sm table-hover\">\n        <tbody>\n            <h4 class=\"text-sm-left\">Medias de los sensores</h4>\n            <tr>Distancia Media: {{avarageWeight}}</tr>\n            <tr>Peso Medio: {{avarageDistance}}</tr>\n            <tr>Porcentaje Medio: {{avaragePercentage}}</tr>\n        </tbody>\n    </table>\n    \n    <agm-map [latitude]=\"globalLat\" [longitude]=\"globalLng\">\n        <agm-marker [latitude]=\"markerLat\" [longitude]=\"markerLng\">\n\n        </agm-marker>\n    </agm-map>\n</div>\n\n");
 
 /***/ }),
 
@@ -357,7 +357,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <div>\n        <!--\n        <app-historico>\n\n        </app-historico>\n        -->\n\n        <app-historic-list>\n        \n        </app-historic-list>\n    </div>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<app-historic-list>\n</app-historic-list>");
 
 /***/ }),
 
@@ -655,10 +655,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! angularfire2/database */ "./node_modules/angularfire2/database/index.js");
 /* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(angularfire2_database__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var _components_historicos_historicos_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/historicos/historicos.component */ "./src/app/components/historicos/historicos.component.ts");
-/* harmony import */ var _components_historicos_historic_list_historic_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/historicos/historic-list/historic-list.component */ "./src/app/components/historicos/historic-list/historic-list.component.ts");
-/* harmony import */ var _components_historicos_historico_historico_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/historicos/historico/historico.component */ "./src/app/components/historicos/historico/historico.component.ts");
-/* harmony import */ var _services_historico_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./services/historico.service */ "./src/app/services/historico.service.ts");
+/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/fesm5/agm-core.js");
+/* harmony import */ var _components_historicos_historicos_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/historicos/historicos.component */ "./src/app/components/historicos/historicos.component.ts");
+/* harmony import */ var _components_historicos_historic_list_historic_list_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/historicos/historic-list/historic-list.component */ "./src/app/components/historicos/historic-list/historic-list.component.ts");
+/* harmony import */ var _components_historicos_historico_historico_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/historicos/historico/historico.component */ "./src/app/components/historicos/historico/historico.component.ts");
+/* harmony import */ var _services_historico_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./services/historico.service */ "./src/app/services/historico.service.ts");
 
 
 
@@ -667,6 +668,8 @@ __webpack_require__.r(__webpack_exports__);
 //firebase
 
 
+
+// maps
 
 // components
 
@@ -681,18 +684,21 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _components_historicos_historico_historico_component__WEBPACK_IMPORTED_MODULE_10__["HistoricoComponent"],
-                _components_historicos_historic_list_historic_list_component__WEBPACK_IMPORTED_MODULE_9__["HistoricListComponent"],
-                _components_historicos_historicos_component__WEBPACK_IMPORTED_MODULE_8__["HistoricosComponent"]
+                _components_historicos_historico_historico_component__WEBPACK_IMPORTED_MODULE_11__["HistoricoComponent"],
+                _components_historicos_historic_list_historic_list_component__WEBPACK_IMPORTED_MODULE_10__["HistoricListComponent"],
+                _components_historicos_historicos_component__WEBPACK_IMPORTED_MODULE_9__["HistoricosComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 angularfire2__WEBPACK_IMPORTED_MODULE_5__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_7__["environment"].firebase),
                 angularfire2_database__WEBPACK_IMPORTED_MODULE_6__["AngularFireDatabaseModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
+                _agm_core__WEBPACK_IMPORTED_MODULE_8__["AgmCoreModule"].forRoot({
+                    apiKey: 'AIzaSyCxodm0ljO9d6_h-fSP7oJ4Ppn8xaKUv68'
+                })
             ],
             providers: [
-                _services_historico_service__WEBPACK_IMPORTED_MODULE_11__["HistoricoService"]
+                _services_historico_service__WEBPACK_IMPORTED_MODULE_12__["HistoricoService"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
         })
@@ -713,7 +719,7 @@ var AppModule = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvaGlzdG9yaWNvcy9oaXN0b3JpYy1saXN0L2hpc3RvcmljLWxpc3QuY29tcG9uZW50LmNzcyJ9 */");
+/* harmony default export */ __webpack_exports__["default"] = ("agm-map{\r\n    height: 400px;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9oaXN0b3JpY29zL2hpc3RvcmljLWxpc3QvaGlzdG9yaWMtbGlzdC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksYUFBYTtBQUNqQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvaGlzdG9yaWNvcy9oaXN0b3JpYy1saXN0L2hpc3RvcmljLWxpc3QuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbImFnbS1tYXB7XHJcbiAgICBoZWlnaHQ6IDQwMHB4O1xyXG59Il19 */");
 
 /***/ }),
 
@@ -745,6 +751,8 @@ var HistoricListComponent = /** @class */ (function () {
         // declaracion de variables
         this.chartHistorico = null;
         this.chartEstado = null;
+        this.globalLat = 40.455349;
+        this.globalLng = -3.4697299;
     }
     HistoricListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -821,39 +829,48 @@ var HistoricListComponent = /** @class */ (function () {
                 x["$key"] = element.key;
                 _this.historicList.push(x);
                 if (item.indexOf(element) == item.length - 1) {
+                    // lines chart
                     _this.chartHistorico.data.labels = [];
                     _this.chartHistorico.data.datasets[0].data = [];
                     _this.chartHistorico.data.datasets[1].data = [];
                     _this.showHistorico();
+                    // pie chart
                     _this.chartEstado.data.datasets[0].data = [];
                     _this.showEstado();
+                    // statistics
                     _this.getAvarageWeight();
                     _this.getAvarageDistance();
                     _this.getAvaragePercentage();
+                    // google maps
+                    _this.getMarker();
                 }
             });
         });
+    };
+    HistoricListComponent.prototype.getMarker = function () {
+        this.markerLat = this.historicList[0].latitud;
+        this.markerLng = this.historicList[0].longitud;
     };
     HistoricListComponent.prototype.getAvarageWeight = function () {
         var sumatorio = 0;
         for (var i in this.historicList) {
             sumatorio = sumatorio + this.historicList[i].peso;
         }
-        this.avarageWeight = sumatorio / this.historicList.length;
+        this.avarageWeight = (sumatorio / this.historicList.length).toFixed(2);
     };
     HistoricListComponent.prototype.getAvarageDistance = function () {
         var sumatorio = 0;
         for (var i in this.historicList) {
             sumatorio = sumatorio + this.historicList[i].distanciaFondo;
         }
-        this.avarageDistance = sumatorio / this.historicList.length;
+        this.avarageDistance = (sumatorio / this.historicList.length).toFixed(2);
     };
     HistoricListComponent.prototype.getAvaragePercentage = function () {
         var sumatorio = 0;
         for (var i in this.historicList) {
             sumatorio = sumatorio + (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 30;
         }
-        this.avaragePercentage = sumatorio / this.historicList.length;
+        this.avaragePercentage = (sumatorio / this.historicList.length).toFixed(2);
     };
     HistoricListComponent.prototype.showHistorico = function () {
         // subimos los datos
