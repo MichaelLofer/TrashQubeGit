@@ -331,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <h2 class=\"text-center mb-1\">Información del Cubo en Tiempo Real</h2>\n    <div class=\"row mb-5\">\n        <div class=\"col-6\">\n            <div *ngFor=\"let historico of historicList; last as isLast\">\n                <span *ngIf=\"isLast\">\n                    <table class=\"table table-sm table-hover\">\n                        <tbody>\n                            <h4 class=\"text-sm-left text-primary\">CUBO 1</h4>\n                            <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                            <tr>Peso: {{historico.peso}}</tr>\n                            <tr>Dia: {{historico.dia}}</tr>\n                            <tr>Hora: {{historico.hora}}</tr>\n                        </tbody>\n                    </table>\n                </span>\n            </div>\n        </div>\n        <div class=\"col-6\"> <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n        </div>\n    </div>\n    \n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    \n        \n    <h2 class=\"text-center text-warning mt-3\">Estadísticas</h2>\n    <table class=\"table table-sm table-hover\">\n        <tbody>\n            <h4 class=\"text-sm-left\">Medias de los sensores</h4>\n            <tr>Distancia Media: {{avarageDistance}}</tr>\n            <tr>Peso Medio: {{avarageWeight}}</tr>\n            <tr>Porcentaje Medio: {{avaragePercentage}}</tr>\n        </tbody>\n    </table>\n    \n    <agm-map [latitude]=\"globalLat\" [longitude]=\"globalLng\">\n        <agm-marker [latitude]=\"markerLat\" [longitude]=\"markerLng\">\n\n        </agm-marker>\n    </agm-map>\n</div>\n\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\n    <h2 class=\"text-center mb-2\">Información del Cubo en Tiempo Real</h2>\n    <div class=\"row mb-5\">\n        <div class=\"col-6 d-flex justify-content-center\">\n            <div *ngFor=\"let historico of historicList; last as isLast\">\n                <span *ngIf=\"isLast\">\n                    <table class=\"table table-sm table-hover\">\n                        <tbody>\n                            <h4 class=\"text-primary mt-3\">CUBO 1</h4>\n                            <tr>Distancia Fondo: {{historico.distanciaFondo}}</tr>\n                            <tr>Peso: {{historico.peso}}</tr>\n                            <tr>Dia: {{historico.dia}}</tr>\n                            <tr>Hora: {{historico.hora}}</tr>\n                        </tbody>\n                    </table>\n                </span>\n            </div>\n        </div>\n        <div class=\"col-6 text-center\"> <canvas id=\"estadoCubo\">{{ Estado }}</canvas>\n        </div>\n    </div>\n    \n    <canvas id=\"historicoFondo\">{{ Historico }}</canvas>\n    \n        \n    <h2 class=\"text-center text-warning mt-3\">Estadísticas</h2>\n    <div class=\"row\">\n        <div class=\"col-4\">\n            <table class=\"table table-sm table-hover\">\n                <tbody>\n                    <h4 class=\"text-sm-left\">Medias de los sensores</h4>\n                    <tr>Distancia Media: {{avarageDistance}} m</tr>\n                    <tr>Peso Medio: {{avarageWeight}}  kg</tr>\n                    <tr>Porcentaje Medio: {{avaragePercentage}} %</tr>\n                </tbody>\n            </table>\n        </div>\n        \n        <div class=\"col-4\">\n            <table class=\"table table-sm table-hover\">\n                <tbody>\n                    <h4 class=\"text-sm-left\">Top Pesos</h4>\n                    <tr>1º: {{topWeightF}}  kg &#x267B; {{topWeightDF}}</tr>\n                    <tr>2º: {{topWeightS}}  kg &#x267B; {{topWeightDS}}</tr>\n                    <tr>3º: {{topWeightT}}  kg &#x267B; {{topWeightDT}}</tr>\n                </tbody>\n            </table>\n        </div>\n\n        <div class=\"col-4\">\n            <table class=\"table table-sm table-hover\">\n                <tbody>\n                    <h4 class=\"text-sm-left\">Top Distancias al Fondo</h4>\n                    <tr>1º: {{topDistanceF}} m &#x267B; {{topDistanceDF}}</tr>\n                    <tr>2º: {{topDistanceS}} m &#x267B; {{topDistanceDS}}</tr>\n                    <tr>3º: {{topDistanceT}} m &#x267B; {{topDistanceDT}}</tr>\n                </tbody>\n            </table>\n        </div>\n    </div>\n    \n    <agm-map [latitude]=\"globalLat\" [longitude]=\"globalLng\">\n        <agm-marker [latitude]=\"markerLat\" [longitude]=\"markerLng\">\n\n        </agm-marker>\n    </agm-map>\n</div>");
 
 /***/ }),
 
@@ -842,6 +842,8 @@ var HistoricListComponent = /** @class */ (function () {
                     _this.getAvarageWeight();
                     _this.getAvarageDistance();
                     _this.getAvaragePercentage();
+                    _this.getTopWeight();
+                    _this.getTopDistance();
                     // google maps
                     _this.getMarker();
                 }
@@ -872,6 +874,82 @@ var HistoricListComponent = /** @class */ (function () {
             sumatorio = sumatorio + (this.historicList[this.historicList.length - 1].distanciaFondo * 100) / 0.30;
         }
         this.avaragePercentage = (sumatorio / this.historicList.length).toFixed(2);
+    };
+    HistoricListComponent.prototype.getTopWeight = function () {
+        var first = 0;
+        var second = 0;
+        var third = 0;
+        var DF = "";
+        var DS = "";
+        var DT = "";
+        if (this.historicList.length >= 3) {
+            for (var i in this.historicList) {
+                if (this.historicList[i].peso > first) {
+                    third = second;
+                    DT = DS;
+                    second = first;
+                    DS = DF;
+                    first = this.historicList[i].peso;
+                    DF = this.historicList[i].dia + "/" + this.historicList[i].hora;
+                }
+                else if (this.historicList[i].peso > second) {
+                    third = second;
+                    DT = DS;
+                    second = this.historicList[i].peso;
+                    DS = this.historicList[i].dia + "/" + this.historicList[i].hora;
+                }
+                else if (this.historicList[i].peso > third) {
+                    third = this.historicList[i].peso;
+                    DT = this.historicList[i].dia + "/" + this.historicList[i].hora;
+                }
+            }
+            //datos
+            this.topWeightF = first.toFixed(2);
+            this.topWeightS = second.toFixed(2);
+            this.topWeightT = third.toFixed(2);
+            //fechas
+            this.topWeightDF = DF;
+            this.topWeightDS = DS;
+            this.topWeightDT = DT;
+        }
+    };
+    HistoricListComponent.prototype.getTopDistance = function () {
+        var first = 0.35;
+        var second = 0.35;
+        var third = 0.35;
+        var DF = "";
+        var DS = "";
+        var DT = "";
+        if (this.historicList.length >= 3) {
+            for (var i in this.historicList) {
+                if (this.historicList[i].distanciaFondo < first) {
+                    third = second;
+                    DT = DS;
+                    second = first;
+                    DS = DF;
+                    first = this.historicList[i].distanciaFondo;
+                    DF = this.historicList[i].dia + "/" + this.historicList[i].hora;
+                }
+                else if (this.historicList[i].distanciaFondo < second) {
+                    third = second;
+                    DT = DS;
+                    second = this.historicList[i].distanciaFondo;
+                    DS = this.historicList[i].dia + "/" + this.historicList[i].hora;
+                }
+                else if (this.historicList[i].distanciaFondo < third) {
+                    third = this.historicList[i].distanciaFondo;
+                    DT = this.historicList[i].dia + "/" + this.historicList[i].hora;
+                }
+            }
+            //datos
+            this.topDistanceF = first.toFixed(2);
+            this.topDistanceS = second.toFixed(2);
+            this.topDistanceT = third.toFixed(2);
+            //fechas
+            this.topDistanceDF = DF;
+            this.topDistanceDS = DS;
+            this.topDistanceDT = DT;
+        }
     };
     HistoricListComponent.prototype.showHistorico = function () {
         // metemos los datos en el grafico de lineas
@@ -1202,7 +1280,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! M:\UNIVERSIDAD\GIT\TrashQube\TrashQubeAngular\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\UNIVERSIDAD\GIT\TrashQube\TrashQubeAngular\src\main.ts */"./src/main.ts");
 
 
 /***/ })
